@@ -120,8 +120,9 @@ if (has_capability('moodle/course:manageactivities', $context)) {
 
 if ($status and !isset($SESSION->aucontext)) {
 
-    $jsuser .= "
-	var newpost = Y.one('#collapseAddForm');
+    $jsuser = "
+    /* var newpost = Y.one('#newdiscussionform'); */
+    var newpost = Y.one('#collapseAddForm');
 
     if (newpost) {
         newpost.append('<br/>&nbsp;&nbsp;<input type=\"button\" class=\"btn btn-primary\" id=\"apnewdiscussion\" value=\"".$strnewpost."\"><br/>');
