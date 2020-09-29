@@ -41,6 +41,7 @@ if (! $anonymousposting = get_config('local_anonymousposting', 'enabled')) {
 }
 
 $status = get_config('local_anonymousposting', 'forum_'.$id);
+
 $anonymousonly = get_config('local_anonymousposting', 'anonymousonly');
 
 $changeuserurl = $CFG->wwwroot.'/local/anonymousposting/changeuser.php?id='.$id;
@@ -54,6 +55,7 @@ $strdisabled = get_string('disabled', 'local_anonymousposting');
 $strforumreply = get_string('reply', 'mod_forum');
 
 $jsedit = "";
+$jsuser = "";
 if (has_capability('moodle/course:manageactivities', $context)) {
 
     $params = array("id" => $id);
@@ -96,7 +98,7 @@ if (has_capability('moodle/course:manageactivities', $context)) {
     $newnode .= "</ul></li>";
     $newnode = preg_replace( "/\r|\n/", "", $newnode );
 
-    $jsedit = "
+    $jsedit .= "
     var stop = false;
     var settingsnav = Y.one('#settingsnav');
     if (settingsnav) {
@@ -120,7 +122,7 @@ if (has_capability('moodle/course:manageactivities', $context)) {
 
 if ($status and !isset($SESSION->aucontext)) {
 
-    $jsuser = "
+    $jsuser .= "
     /* var newpost = Y.one('#newdiscussionform'); */
     var newpost = Y.one('#collapseAddForm');
 
@@ -159,12 +161,16 @@ if ($status and !isset($SESSION->aucontext)) {
 }
 
 // Show link for return to the actual user
-if ($status and isset($SESSION->aucontext)) {
-    $strrelogin = get_string('relogin', 'local_anonymousposting');
-    $url = new moodle_url('/local/anonymousposting/relogin.php', array('sesskey' => sesskey()));
 
-    $newnode = "<li class=\"type_setting collapsed item_with_icon\"><p class=\"tree_item leaf\"><a title=\"$strrelogin\" href=\"$url\">$strrelogin</a></p></li>";
-    $newnode = preg_replace( "/\r|\n/", "", $newnode );
+    /// if ($status and isset($SESSION->aucontext)) {
+
+        /// $strrelogin = get_string('relogin', 'local_anonymousposting');
+        /// $url = new moodle_url('/local/anonymousposting/relogin.php', array('sesskey' => sesskey()));
+
+        /// $newnode = "<li class=\"type_setting collapsed item_with_icon\"><p class=\"tree_item leaf\"><a title=\"$strrelogin\" href=\"$url\">$strrelogin</a></p></li>";
+        /// $newnode = preg_replace("/\r|\n/", "", $newnode);
+
+    $newnode = '';
 
     $jsuser .= "
     var stop = false;
@@ -186,7 +192,7 @@ if ($status and isset($SESSION->aucontext)) {
         });
     }
     ";
-}
+/// }
 
 $js = "
 
@@ -199,6 +205,8 @@ YUI().use('node', function (Y) {
 });
 
 ";
+
+
 
 
 $lifetime  = 600;                                   // Seconds to cache this stylesheet
