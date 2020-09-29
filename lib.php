@@ -52,12 +52,4 @@ function local_anonymousposting_extend_navigation($nav) {
             redirect(new moodle_url('/mod/forum/view.php', array('id' => $SESSION->aucontext->instanceid)));
         }
     }
-
-    if (isset($SESSION->aucontext)) {
-
-        $strrelogin = get_string('relogin', 'local_anonymousposting');
-        $url = new moodle_url('/local/anonymousposting/relogin.php', array('sesskey' => sesskey()));
-        $reloginnode = $PAGE->settingsnav->add(($strrelogin), new moodle_url($url), navigation_node::TYPE_ACTIVITY);
-
-    }
 }

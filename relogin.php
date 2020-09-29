@@ -25,6 +25,12 @@
 
 require_once(dirname(__FILE__) . '/../../config.php');
 
+if (!isset($SESSION->aucontext)) {
+    $fid = required_param('fid', PARAM_INT);
+    $furltogo = new moodle_url('/mod/forum/view.php', array('id' => $fid));
+    redirect($furltogo);
+}
+
 $PAGE->set_url('/local/anonymousposting/relogin.php');
 
 // context instanceid = course module id for this context (forum)
